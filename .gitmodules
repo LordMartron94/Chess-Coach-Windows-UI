@@ -1,0 +1,3 @@
+﻿[submodule "MD.Common"]
+	path = MD.Common
+	url = https://github.com/LordMartron94/MD.Common.git

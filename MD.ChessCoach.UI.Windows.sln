@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.ChessCoach.UI.Windows.Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.ChessCoach.UI.Communication", "MD.ChessCoach.UI.Communication\MD.ChessCoach.UI.Communication.csproj", "{9D9C7F89-DD98-41C8-AE65-54A958135C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.Common", "..\..\..\..\shared\MD.Common\MD.Common.csproj", "{195338DC-4E91-4BCC-8644-A48110CF7D20}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{28E481B7-B64D-45B6-A3F6-3406C0317606}"
 EndProject
 Global
@@ -28,10 +26,6 @@ Global
 		{9D9C7F89-DD98-41C8-AE65-54A958135C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D9C7F89-DD98-41C8-AE65-54A958135C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D9C7F89-DD98-41C8-AE65-54A958135C0D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{195338DC-4E91-4BCC-8644-A48110CF7D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{195338DC-4E91-4BCC-8644-A48110CF7D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{195338DC-4E91-4BCC-8644-A48110CF7D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{195338DC-4E91-4BCC-8644-A48110CF7D20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Release|Any CPU.ActiveCfg = Release|Any CPU
