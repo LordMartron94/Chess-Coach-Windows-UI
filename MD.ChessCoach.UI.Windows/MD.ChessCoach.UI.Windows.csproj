@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Caliburn.Micro" Version="4.0.212"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\..\shared\MD.Common\MD.Common.csproj"/>
+        <ProjectReference Include="..\MD.ChessCoach.UI.Communication\MD.ChessCoach.UI.Communication.csproj"/>
+        <ProjectReference Include="..\MD.ChessCoach.UI.Windows.Library\MD.ChessCoach.UI.Windows.Library.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\Shaibel.png" />
+      <Resource Include="Assets\Shaibel.png" />
+      <None Remove="Assets\Reverse Button.png" />
+      <Resource Include="Assets\Reverse Button.png" />
+      <None Remove="Assets\Chess Set 1\Black_Bishop.png" />
+      <Resource Include="Assets\Chess Set 1\Black_Bishop.png" />
+      <None Remove="Assets\Chess Set 1\Black_King.png" />
+      <Resource Include="Assets\Chess Set 1\Black_King.png" />
+      <None Remove="Assets\Chess Set 1\Black_Knight.png" />
+      <Resource Include="Assets\Chess Set 1\Black_Knight.png" />
+      <None Remove="Assets\Chess Set 1\Black_Pawn.png" />
+      <Resource Include="Assets\Chess Set 1\Black_Pawn.png" />
+      <None Remove="Assets\Chess Set 1\Black_Queen.png" />
+      <Resource Include="Assets\Chess Set 1\Black_Queen.png" />
+      <None Remove="Assets\Chess Set 1\Black_Rook.png" />
+      <Resource Include="Assets\Chess Set 1\Black_Rook.png" />
+      <None Remove="Assets\Chess Set 1\White_Bishop.png" />
+      <Resource Include="Assets\Chess Set 1\White_Bishop.png" />
+      <None Remove="Assets\Chess Set 1\White_King.png" />
+      <Resource Include="Assets\Chess Set 1\White_King.png" />
+      <None Remove="Assets\Chess Set 1\White_Knight.png" />
+      <Resource Include="Assets\Chess Set 1\White_Knight.png" />
+      <None Remove="Assets\Chess Set 1\White_Pawn.png" />
+      <Resource Include="Assets\Chess Set 1\White_Pawn.png" />
+      <None Remove="Assets\Chess Set 1\White_Queen.png" />
+      <Resource Include="Assets\Chess Set 1\White_Queen.png" />
+      <None Remove="Assets\Chess Set 1\White_Rook.png" />
+      <Resource Include="Assets\Chess Set 1\White_Rook.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\Chess Board.png" />
+      <Resource Include="Assets\Chess Board.png" />
+    </ItemGroup>
+
+</Project>

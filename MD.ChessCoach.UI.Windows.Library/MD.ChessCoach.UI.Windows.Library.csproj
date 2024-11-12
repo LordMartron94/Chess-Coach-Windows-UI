@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\..\shared\MD.Common\MD.Common.csproj"/>
+        <ProjectReference Include="..\MD.ChessCoach.UI.Communication\MD.ChessCoach.UI.Communication.csproj"/>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+﻿{
+  "requester_id": "5b4b25d1-9538-40ce-8147-4d712013543e",
+  "payload": {
+    "action": "register",
+    "args": [
+      {
+        "type": "string",
+        "value": "UI.Windows"
+      },
+      {
+        "type": "string",
+        "value": "0.1.0"
+      },
+      {
+        "type": "list",
+        "value": "[]"
+      }
+    ]
+  }
+}

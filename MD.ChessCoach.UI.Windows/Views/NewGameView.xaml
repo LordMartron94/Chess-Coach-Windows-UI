@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="MD.ChessCoach.UI.Windows.Views.NewGameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cm="http://caliburnmicro.com"
+             xmlns:windows="clr-namespace:MD.ChessCoach.UI.Windows"
+             mc:Ignorable="d"
+             d:DesignHeight="1060" d:DesignWidth="1920">
+    <Grid Background="#222">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ChessBoard -->
+        <StackPanel>
+            <TextBlock 
+                Text="{Binding Player2Name}"
+                Foreground="White"
+                FontSize="48"
+                FontFamily="Perpetua Titling MT" FontWeight="Bold"
+                HorizontalAlignment="Center"
+                Margin="0 20 0 20">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="5" Color="Black" ShadowDepth="3" />
+                </TextBlock.Effect>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Grid>
+                    <Image Source="pack://application:,,,/Assets/Chess Board.png" Width="650"/>
+                    <Canvas>
+                        <ItemsControl ItemsSource="{Binding BoardPieces}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="650"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Image  
+                                        Source="{Binding ImagePath}" 
+                                        Width="81.25" 
+                                        Height="81.25">
+                                        <Image.Margin>
+                                            <Binding Path="Margin"/>
+                                        </Image.Margin>
+                                    </Image>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Canvas>
+                </Grid>
+                <Button
+                        Height="50" Width="100"
+                        Margin="20 0 0 0"
+                        Background="Transparent"
+                        cm:Message.Attach="[Event Click] = [Action Reverse()]">
+                    <Image 
+                        Source="pack://application:,,,/Assets/Reverse Button.png"
+                        Width="100">
+                    </Image>
+                    <Button.LayoutTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="90" />
+                        </TransformGroup>
+                    </Button.LayoutTransform>
+                </Button>
+            </StackPanel>
+            <TextBlock 
+                Text="{Binding Player1Name}"
+                Foreground="White"
+                FontSize="48"
+                FontFamily="Perpetua Titling MT" FontWeight="Bold"
+                HorizontalAlignment="Center"
+                Margin="0 20 0 20">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="5" Color="Black" ShadowDepth="3" />
+                </TextBlock.Effect>
+            </TextBlock>
+        </StackPanel>
+        
+
+        
+        <Button Grid.Column="0" Grid.Row="1" Content="Home Screen" cm:Message.Attach="[Event Click] = [Action Back()]"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Width="120" Height="40"
+                Background="#A97142" Foreground="#FFD700" FontFamily="Trajan Pro" FontSize="18" BorderThickness="2"
+                BorderBrush="#FFD700" />
+    </Grid>
+</UserControl>
