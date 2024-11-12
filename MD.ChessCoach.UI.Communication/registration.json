@@ -5,7 +5,7 @@
     "args": [
       {
         "type": "string",
-        "value": "UI.Windows"
+        "value": "ChessCoach.UI.Windows"
       },
       {
         "type": "string",
