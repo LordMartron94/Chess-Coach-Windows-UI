@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\..\shared\MD.Common\MD.Common.csproj"/>
         <ProjectReference Include="..\MD.ChessCoach.UI.Communication\MD.ChessCoach.UI.Communication.csproj"/>
+        <ProjectReference Include="..\MD.Common\MD.Common.csproj" />
     </ItemGroup>
 
 </Project>

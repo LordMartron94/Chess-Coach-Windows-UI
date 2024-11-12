@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.ChessCoach.UI.Communicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{28E481B7-B64D-45B6-A3F6-3406C0317606}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD.Common", "MD.Common\MD.Common.csproj", "{C24E7A80-F9E4-4E1F-8921-CCB5AF77CE3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E481B7-B64D-45B6-A3F6-3406C0317606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C24E7A80-F9E4-4E1F-8921-CCB5AF77CE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C24E7A80-F9E4-4E1F-8921-CCB5AF77CE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C24E7A80-F9E4-4E1F-8921-CCB5AF77CE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C24E7A80-F9E4-4E1F-8921-CCB5AF77CE3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
