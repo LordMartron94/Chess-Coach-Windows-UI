@@ -69,7 +69,7 @@ public class Connector
 
     private void SendKeepAliveMessage(Socket s)
     {
-        const int keepAliveInterval = 5000; // 5 seconds
+        const int keepAliveInterval = 30000; // 30 seconds
 
         while (!_cancellationTokenSource.IsCancellationRequested)
         {
