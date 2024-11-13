@@ -70,6 +70,8 @@ public class Connector
     private void SendKeepAliveMessage(Socket s)
     {
         const int keepAliveInterval = 30000; // 30 seconds
+        
+        Thread.Sleep(30000); // No need to send a keep-alive message right away.
 
         while (!_cancellationTokenSource.IsCancellationRequested)
         {
@@ -77,7 +79,15 @@ public class Connector
 
             Message transformedMessage = Utilities.GetMessageFromSharedResource(Constants.DefaultRequestResourcePath, payload);
             SendMessage(s, transformedMessage);
-            Thread.Sleep(keepAliveInterval);
+            
+            try
+            {
+                Thread.Sleep(keepAliveInterval);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
         }
     }
 
