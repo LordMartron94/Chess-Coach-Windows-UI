@@ -22,21 +22,22 @@ public static class Utilities
 
         return message;
     }
-    
+
     /// <summary>
     /// Builds a MessagePayload object with the given action.
     /// Mostly used for default special actions (shutdown, unregister, keep_alive).
     /// </summary>
     /// <param name="action">The associated parameterless action.</param>
+    /// <param name="args">Optional argument specification.</param>
     /// <returns>MessagePayload object</returns>
-    /// <remarks>
-    /// Does not include arguments at this point.
-    /// </remarks>
-    public static MessagePayload BuildPayload(string action)
+    public static MessagePayload BuildPayload(string action, Argument[]? args = null)
     {
+        Argument[] arguments = args ?? Array.Empty<Argument>();
+        
         return new MessagePayload
         {
-            action = action
+            action = action,
+            args = arguments
         };
     }
 }

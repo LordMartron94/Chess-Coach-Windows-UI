@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
-using MD.ChessCoach.UI.Windows.Library;
+using MD.ChessCoach.UI.Communication;
 using MD.Common.SoftwareStateHandling;
+using Constants = MD.ChessCoach.UI.Windows.Library.Constants;
 
 namespace MD.ChessCoach.UI.Windows.ViewModels;
 

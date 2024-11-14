@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 
-namespace MD.ChessCoach.UI.Communication._Internal;
+namespace MD.ChessCoach.UI.Communication._Internal.Connectivity;
 
 /// <summary>
 ///     Handles any exceptions that occur during communication with the server.

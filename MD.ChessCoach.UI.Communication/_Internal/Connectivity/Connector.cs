@@ -4,7 +4,7 @@ using System.Text;
 using MD.ChessCoach.UI.Communication.Model;
 using Newtonsoft.Json;
 
-namespace MD.ChessCoach.UI.Communication._Internal;
+namespace MD.ChessCoach.UI.Communication._Internal.Connectivity;
 
 /// <summary>
 ///     Low-Level API for connecting with remote hosts.
@@ -61,24 +61,46 @@ public class Connector
         return s;
     }
 
+    /// <summary>
+    /// Initiates a background thread that sends periodic keep-alive messages to maintain the connection.
+    /// </summary>
+    /// <param name="s">The connected socket through which keep-alive messages will be sent.</param>
+    /// <remarks>
+    /// This method creates and starts a new thread that continuously sends keep-alive messages
+    /// to the server at regular intervals. The keep-alive messages help prevent the connection
+    /// from timing out due to inactivity.
+    /// Skips the first interval because it's not necessary.
+    /// </remarks>
     public void StartKeepAliveMessageLoop(Socket s)
     {
         Thread keepAliveThread = new Thread(() => SendKeepAliveMessage(s));
         keepAliveThread.Start();
     }
 
+    /// <summary>
+    /// Initiates a background thread that sends periodic keep-alive messages to maintain the connection.
+    /// </summary>
+    /// <param name="s">The connected socket through which keep-alive messages will be sent.</param>
+    /// <remarks>
+    /// This method creates and starts a new thread that continuously sends keep-alive messages
+    /// to the server at regular intervals. The keep-alive messages help prevent the connection
+    /// from timing out due to inactivity.
+    /// Skips the first interval because it's not necessary.
+    /// </remarks>
     private void SendKeepAliveMessage(Socket s)
     {
         const int keepAliveInterval = 30000; // 30 seconds
         
-        Thread.Sleep(30000); // No need to send a keep-alive message right away.
+        Thread.Sleep(keepAliveInterval); // No need to send a keep-alive message right away.
 
         while (!_cancellationTokenSource.IsCancellationRequested)
         {
-            MessagePayload payload = Utilities.BuildPayload("keep_alive");
-
-            Message transformedMessage = Utilities.GetMessageFromSharedResource(Constants.DefaultRequestResourcePath, payload);
-            SendMessage(s, transformedMessage);
+            MessagePayload payload = PayloadFactory.BuildPayload(
+                action: "keep_alive",
+                args: new Dictionary<string, string>());
+        
+            Message message = new Message(payload);
+            SendMessage(s, message);
             
             try
             {
@@ -154,7 +176,6 @@ public class Connector
 
     private void _process_message(string message, string host, int port)
     {
-        Console.WriteLine($"Received from {host}:{port}: {message}");
         Message processedMessage = JsonConvert.DeserializeObject<Message>(message);
         _messageReceivedListener(processedMessage.payload);
     }
@@ -165,8 +186,6 @@ public class Connector
         string messageSerialized = JsonConvert.SerializeObject(message);
         messageSerialized += _endOfMessageToken;
         byte[] messageBytes = Encoding.UTF8.GetBytes(messageSerialized);
-        
-        Console.WriteLine($"Sending {messageSerialized}");
         
         socket.Send(messageBytes);
     }

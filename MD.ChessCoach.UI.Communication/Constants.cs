@@ -6,8 +6,7 @@ public static class Constants
     public const int ServerPort = 50000;
     public const int ComponentPort = 50002;
     
-    public const bool IsDebugMode = true;
+    public const bool KeepServerAlive = true;
     
     public const string RegistrationEmbeddedResourcePath = "MD.ChessCoach.UI.Communication.registration.json";
-    public const string DefaultRequestResourcePath = "MD.ChessCoach.UI.Communication.default_request_template.json";
 }

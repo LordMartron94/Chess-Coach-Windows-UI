@@ -1,26 +1,23 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Sockets;
-using MD.ChessCoach.UI.Communication._Internal;
-using MD.ChessCoach.UI.Communication.Model;
+﻿using MD.ChessCoach.UI.Communication._Internal;
 
 namespace MD.ChessCoach.UI.Communication;
 
 /// <summary>
 ///     API interface for communication with the server.
 /// </summary>
+/// <remarks>
+/// This class is a facade for the communication logic.
+/// </remarks>
 public sealed class API
 {
     private static volatile API? _instance;
     private readonly static object SyncRoot = new object();
-
-    private Connector? _connector;
-
-    private readonly Dictionary<LogLevel, string> _logLevels = new Dictionary<LogLevel, string>();
-
-    private Socket? _socket;
+    
+    private readonly APIContext _context;
+    
     private API()
     {
-        Initialize();
+        _context = new APIContext();
     }
 
     public static API Instance
@@ -41,85 +38,21 @@ public sealed class API
         }
     }
 
-    private void Initialize()
-    {
-        _logLevels[LogLevel.Debug] = "debug";
-        _logLevels[LogLevel.Info] = "info";
-        _logLevels[LogLevel.Warning] = "warning";
-        _logLevels[LogLevel.Error] = "error";
-        _logLevels[LogLevel.Critical] = "critical";
-
-        try
-        {
-            _connector = new Connector(ProcessReceivedMessage);
-            _socket = _connector.ConnectToRemote(Constants.ServerHost, Constants.ServerPort, Constants.ComponentPort);
-
-            if (_socket == null)
-                throw new Exception("Failed to connect to server");
-        }
-        catch (SocketException ex)
-        {
-            // Just in case
-            _socket?.Close();
-            Console.WriteLine(ex.ErrorCode == 10048 ? "WARNING: Port is already in use." : ex.Message);
-            return;
-        }
-        catch (Exception ex)
-        {
-            // Just in case
-            _socket?.Close();
-            throw new Exception("Failed to initialize API: " + ex.Message, ex);
-        }
-
-        Message message = Utilities.GetMessageFromSharedResource(Constants.RegistrationEmbeddedResourcePath);
-        _connector?.SendMessage(_socket, message);
-        _connector?.StartKeepAliveMessageLoop(_socket);
-    }
-
-    [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-    public void Shutdown()
-    {
-        if (_socket == null)
-            throw new InvalidOperationException("Socket is not initialized");
-        
-        if (!Constants.IsDebugMode)
-#pragma warning disable CS0162 // Unreachable code detected
-        {
-            Message shutdownMessage = Utilities.GetMessageFromSharedResource(Constants.DefaultRequestResourcePath, Utilities.BuildPayload("shutdown"));
-            _connector?.SendMessage(_socket, shutdownMessage);
-            
-            Message unregisterMessage = Utilities.GetMessageFromSharedResource(Constants.DefaultRequestResourcePath, Utilities.BuildPayload("unregister"));
-            _connector?.SendMessage(_socket, unregisterMessage);
-        }
-#pragma warning restore CS0162 // Unreachable code detected
-        
-        _connector?.Shutdown();
-        _socket?.Close();
-    }
-
+    /// <summary>
+    /// Logs a message to the server using the specified log level and optional module separator.
+    /// </summary>
+    /// <param name="message">The message to be logged.</param>
+    /// <param name="level">The log level of the message. Default is LogLevel.Info.</param>
+    /// <param name="moduleSeparator">An optional separator to be added between the module name and the message. Default is an empty string.</param>
+    /// <param name="forceShow">A flag indicating whether the message should be shown regardless of the log level settings. Default is false.</param>
     public void Log(string message, LogLevel level = LogLevel.Info, string moduleSeparator = "", bool forceShow = false)
     {
-        if (_socket == null)
-            throw new InvalidOperationException("Socket is not initialized");
-        
-        MessagePayload payload = new MessagePayload
-        {
-            action = $"log_{_logLevels[level]}",
-            args =
-            [
-                new Argument { type = "string", value = message },
-                new Argument { type = "bool", value = forceShow.ToString() },
-                new Argument { type = "string", value = "" },
-                new Argument { type = "string", value = moduleSeparator }
-            ]
-        };
-
-        Message transformedMessage = Utilities.GetMessageFromSharedResource(Constants.DefaultRequestResourcePath, payload);
-        _connector?.SendMessage(_socket, transformedMessage);
+        _context.Logger.Log(message, level, moduleSeparator, forceShow);
     }
-
-    private void ProcessReceivedMessage(MessagePayload payload)
+    
+    
+    public void Shutdown()
     {
-        Console.WriteLine($"Gotten: {payload.action}");
+        _context.Shutdown();
     }
 }
