@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using MD.ChessCoach.UI.Communication._Internal.Processing;
+using MD.ChessCoach.UI.Communication._Internal.Scanning;
 using MD.ChessCoach.UI.Communication.Model;
 using Newtonsoft.Json;
 
@@ -14,11 +16,11 @@ public class Connector
     private readonly string _endOfMessageToken;
     private readonly CancellationTokenSource _cancellationTokenSource; 
 
-    private readonly Action<MessagePayload> _messageReceivedListener;
+    private readonly IScanner _scanner;
 
-    public Connector(Action<MessagePayload> messageReceivedListener, string endOfMessageToken = "<eom>")
+    public Connector(IMessageProcessor messageProcessor, string endOfMessageToken = "<eom>")
     {
-        _messageReceivedListener = messageReceivedListener;
+        _scanner = new Scanner(messageProcessor);
         
         _endOfMessageToken = endOfMessageToken;
         _cancellationTokenSource = new CancellationTokenSource();
@@ -115,29 +117,10 @@ public class Connector
 
     private void ReadDataLoop(Socket s, string host, int port)
     {
-        byte[] buffer = Array.Empty<byte>();
-
         while (!_cancellationTokenSource.IsCancellationRequested)
             try
             {
-                byte[] data = new byte[4096];
-                int bytesRead = s.Receive(data);
-                _cancellationTokenSource.Token.ThrowIfCancellationRequested(); 
-
-                if (bytesRead == 0)
-                    break;
-
-                buffer = Combine(buffer, data, bytesRead);
-
-                byte[] eomTokenBytes = Encoding.ASCII.GetBytes(_endOfMessageToken);
-
-                if (buffer.AsSpan().IndexOf(eomTokenBytes) != -1)
-                {
-                    byte[][] parts = Split(buffer, eomTokenBytes);
-                    string message = Encoding.ASCII.GetString(parts[0]);
-                    _process_message(message, host, port);
-                    buffer = parts[1];
-                }
+                _scanner.Scan(s, _cancellationTokenSource, _endOfMessageToken);
             }
             catch (SocketException ex)
             {
@@ -149,35 +132,7 @@ public class Connector
                 
                 Console.WriteLine($"Error reading data from {host}:{port}: {ex.Message}\nClosing connection.");
                 s.Close();
-                break;
             }
-    }
-
-    // Helper functions for byte array manipulation
-    private static byte[] Combine(byte[] first, byte[] second, int secondLength)
-    {
-        byte[] ret = new byte[first.Length + secondLength];
-        Buffer.BlockCopy(first, 0, ret, 0, first.Length);
-        Buffer.BlockCopy(second, 0, ret, first.Length, secondLength);
-        return ret;
-    }
-
-    private static byte[][] Split(byte[] source, byte[] delimiter)
-    {
-        int index = source.AsSpan().IndexOf(delimiter);
-
-        if (index == -1)
-            return [source, Array.Empty<byte>()];
-
-        byte[] first = source.AsSpan(0, index).ToArray();
-        byte[] second = source.AsSpan(index + delimiter.Length).ToArray();
-        return [first, second];
-    }
-
-    private void _process_message(string message, string host, int port)
-    {
-        Message processedMessage = JsonConvert.DeserializeObject<Message>(message);
-        _messageReceivedListener(processedMessage.payload);
     }
     
     public void SendMessage(Socket socket, Message message)
