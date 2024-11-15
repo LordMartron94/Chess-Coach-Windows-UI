@@ -27,12 +27,12 @@ internal class Logger : AbEndpoint
     {
         MessageHandler.SendRequest(
             action: $"log_{_logLevels[level]}", 
-            args: new Dictionary<string, string>
-            {
-                {"string", message}, 
-                {"bool", forceShow.ToString()},
-                {"string", "" },
-                {"string", moduleSeparator },
-            });
+            args:
+            [
+                ("string", message),
+                ("bool", forceShow.ToString()),
+                ("string", ""),
+                ("string", moduleSeparator)
+            ]);
     }
 }

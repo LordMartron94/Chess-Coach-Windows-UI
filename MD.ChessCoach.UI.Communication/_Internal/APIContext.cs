@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 using MD.ChessCoach.UI.Communication._Internal.Connectivity;
 using MD.ChessCoach.UI.Communication._Internal.Endpoints;
@@ -61,7 +61,7 @@ internal class APIContext
         
         MessagePayload payload = PayloadFactory.BuildPayload(
             action: "shutdown",
-            args: new Dictionary<string, string>());
+            args: []);
         
         Message message = new Message(payload);
             

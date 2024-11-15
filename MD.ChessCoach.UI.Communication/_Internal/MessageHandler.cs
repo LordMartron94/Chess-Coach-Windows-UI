@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using MD.ChessCoach.UI.Communication._Internal.Connectivity;
 using MD.ChessCoach.UI.Communication.Model;
 
@@ -29,11 +29,11 @@ internal class MessageHandler : IMessageHandler
     {
         MessagePayload payload = PayloadFactory.BuildPayload(
             action: "response",
-            args: new Dictionary<string, string>
-            {
-                {"string", responseMessage}, 
-                {"int", responseCode.ToString()}
-            });
+            args: 
+            [
+                ("string", responseMessage), 
+                ("int", responseCode.ToString())
+            ]);
         
         Message message = new Message(payload);
         _connector.SendMessage(_socket, message);

@@ -4,12 +4,12 @@ namespace MD.ChessCoach.UI.Communication._Internal;
 
 internal static class PayloadFactory
 {
-    public static MessagePayload BuildPayload(string action, Dictionary<string, string> args)
+    public static MessagePayload BuildPayload(string action, IEnumerable<(string, string)> args)
     {
         Argument[] arguments = args.Select(arg => new Argument
         {
-            type = arg.Key,
-            value = arg.Value
+            type = arg.Item1,
+            value = arg.Item2
         }).ToArray();
         
         MessagePayload payload = new MessagePayload

@@ -1,4 +1,4 @@
-﻿using MD.ChessCoach.UI.Communication.Model;
+using MD.ChessCoach.UI.Communication.Model;
 
 namespace MD.ChessCoach.UI.Communication._Internal;
 
@@ -10,7 +10,7 @@ internal interface IMessageHandler
     /// <param name="action">The requested action.</param>
     /// <param name="args">The arguments for the payload.</param>
     /// <returns>The UUID of the sent message.</returns>
-    string SendRequest(string action, Dictionary<string, string> args);
+    string SendRequest(string action, List<(string, string)> args);
     
     /// <summary>
     /// Sends a response to the server and returns the UUID.

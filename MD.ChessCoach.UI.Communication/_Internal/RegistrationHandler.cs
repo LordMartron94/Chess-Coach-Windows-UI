@@ -29,7 +29,7 @@ internal class RegistrationHandler
     {
         MessagePayload payload = PayloadFactory.BuildPayload(
             action: "unregister",
-            args: new Dictionary<string, string>());
+            args: []);
         
         Message message = new Message(payload);
         
