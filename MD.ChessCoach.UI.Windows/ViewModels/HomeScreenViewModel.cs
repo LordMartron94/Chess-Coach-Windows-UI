@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using MD.ChessCoach.UI.Communication;
 using MD.Common.SoftwareStateHandling;
 using Constants = MD.ChessCoach.UI.Windows.Library.Constants;
 

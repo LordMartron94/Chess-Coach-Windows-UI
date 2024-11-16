@@ -1,6 +1,4 @@
-﻿using MD.Common.Utils;
-
-namespace MD.ChessCoach.UI.Windows.Library;
+﻿namespace MD.ChessCoach.UI.Windows.Library;
 
 public static class Helpers
 {
@@ -49,59 +47,35 @@ public static class Helpers
     {
         if (square.Owner == SquareOwner.White)
         {
-            switch (square.Piece)
+            return square.Piece switch
             {
-                case SquarePiece.Pawn:
-                    return "White_Pawn.png";
-                case SquarePiece.Rook:
-                    return "White_Rook.png";
-                case SquarePiece.Knight:
-                    return "White_Knight.png";
-                case SquarePiece.Bishop:
-                    return "White_Bishop.png";
-                case SquarePiece.Queen:
-                    return "White_Queen.png";
-                case SquarePiece.King:
-                    return "White_King.png";
-                case SquarePiece.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                SquarePiece.Pawn => "White_Pawn.png",
+                SquarePiece.Rook => "White_Rook.png",
+                SquarePiece.Knight => "White_Knight.png",
+                SquarePiece.Bishop => "White_Bishop.png",
+                SquarePiece.Queen => "White_Queen.png",
+                SquarePiece.King => "White_King.png",
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
-        else
+
+        return square.Piece switch
         {
-            switch (square.Piece)
-            {
-                case SquarePiece.Pawn:
-                    return "Black_Pawn.png";
-                case SquarePiece.Rook:
-                    return "Black_Rook.png";
-                case SquarePiece.Knight:
-                    return "Black_Knight.png";
-                case SquarePiece.Bishop:
-                    return "Black_Bishop.png";
-                case SquarePiece.Queen:
-                    return "Black_Queen.png";
-                case SquarePiece.King:
-                    return "Black_King.png";
-                case SquarePiece.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        
-        throw new ArgumentOutOfRangeException();
+            SquarePiece.Pawn => "Black_Pawn.png",
+            SquarePiece.Rook => "Black_Rook.png",
+            SquarePiece.Knight => "Black_Knight.png",
+            SquarePiece.Bishop => "Black_Bishop.png",
+            SquarePiece.Queen => "Black_Queen.png",
+            SquarePiece.King => "Black_King.png",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
     }
 
     public static (double, double) GetSquarePosition(int file, int rank, double width = 81.25, double height = 81.25)
     {
         double x = file * width;
         double y = (7 - rank) * height;
-        
-        ILogger logger = HoornLogger.Instance;
-        logger.Debug($"Calculated square position: ({x}, {y}) for square ({file}, {rank})");
         
         return (x, y);
     }

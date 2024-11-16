@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using Caliburn.Micro;
 using MD.ChessCoach.UI.Communication;
 using MD.ChessCoach.UI.Windows.Library;

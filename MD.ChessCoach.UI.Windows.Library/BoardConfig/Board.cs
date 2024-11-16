@@ -76,8 +76,6 @@ public class Board
         foreach (string square in blackPawns)
             SetSquare(square, SquareOwner.Black, SquarePiece.Pawn);
         
-        _logger.Debug("Pawns set successfully", moduleSeparator: "Board");
-        
         // White pieces
         SetSquare("a1", SquareOwner.White, SquarePiece.Rook);
         SetSquare("b1", SquareOwner.White, SquarePiece.Knight);
