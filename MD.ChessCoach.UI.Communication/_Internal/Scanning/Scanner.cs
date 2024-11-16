@@ -2,7 +2,6 @@
 using System.Text;
 using MD.ChessCoach.UI.Communication._Internal.Processing;
 using MD.ChessCoach.UI.Communication.Model;
-using Newtonsoft.Json;
 
 namespace MD.ChessCoach.UI.Communication._Internal.Scanning;
 

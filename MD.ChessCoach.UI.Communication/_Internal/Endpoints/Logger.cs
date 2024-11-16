@@ -1,6 +1,4 @@
-﻿using MD.ChessCoach.UI.Communication.Model;
-
-namespace MD.ChessCoach.UI.Communication._Internal.Endpoints;
+﻿namespace MD.ChessCoach.UI.Communication._Internal.Endpoints;
 
 /// <summary>
 /// Logging endpoint for logging messages.
