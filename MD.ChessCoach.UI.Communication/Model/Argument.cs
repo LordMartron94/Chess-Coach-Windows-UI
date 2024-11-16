@@ -6,7 +6,7 @@ namespace MD.ChessCoach.UI.Communication.Model;
 public struct Argument
 {
     public string type { get; set; }
-    public string value { get; set; }
+    public string? value { get; set; }
 
     public override string ToString()
     {

@@ -55,4 +55,9 @@ public sealed class API
     {
         _context.Shutdown();
     }
+
+    public string[] GetLegalMoves(string square)
+    {
+        return _context.ChessEndpoint.GetLegalMovesForSquare(square);
+    }
 }

@@ -1,10 +1,12 @@
 ﻿using MD.ChessCoach.UI.Communication.Model;
+using MD.Common.Utils;
 
 namespace MD.ChessCoach.UI.Communication._Internal.Processing;
 
 internal class ResponseProcessor : IMessageProcessor
 {
     private readonly Dictionary<Message, Action<Message>?> _sentMessagesExpectingAResponseWithSubscriber;
+    
     
     public ResponseProcessor(IMessageHandler messageHandler)
     {
@@ -16,6 +18,7 @@ internal class ResponseProcessor : IMessageProcessor
     private void AddSentMessage(Message message, Action<Message>? subscriber)
     {
         _sentMessagesExpectingAResponseWithSubscriber.TryAdd(message, subscriber);
+        Thread.Sleep(1);
     }
     
     public void ProcessIncomingMessage(Message incomingMessage)
@@ -44,21 +47,42 @@ internal class ResponseProcessor : IMessageProcessor
     {
         if (message.payload.action == "error")
         {
-            HandleClientResponse(message, associatedSentMessage); // Want to treat error as if it was client response, otherwise subscription is not aware of error.
+            HandleServerSendsError(message, associatedSentMessage);
             return;
         }
         
         int argLength = message.payload.args.Length;
-        bool responseExpected = argLength > 2 && message.payload.args[argLength - 2].value == "true";
+        bool responseExpected = argLength > 2 && int.Parse(message.payload.args[argLength - 2].value) >= 0;
         
         if (!responseExpected)
             _sentMessagesExpectingAResponseWithSubscriber.Remove(associatedSentMessage);
     }
+
+    private void HandleServerSendsError(Message incomingMessage, Message associatedSentMessage)
+    {
+        if (!_sentMessagesExpectingAResponseWithSubscriber.ContainsKey(associatedSentMessage))
+        {
+            Console.WriteLine($"Received unexpected server error: {incomingMessage.ToString()}");
+            return;
+        }
+        
+        Action<Message>? onClientResponseReceived = _sentMessagesExpectingAResponseWithSubscriber[associatedSentMessage];
+        onClientResponseReceived?.Invoke(incomingMessage);
+        
+        _sentMessagesExpectingAResponseWithSubscriber.Remove(associatedSentMessage);
+    }
     
     private void HandleClientResponse(Message incomingMessage, Message associatedSentMessage)
     {
+        if (!_sentMessagesExpectingAResponseWithSubscriber.ContainsKey(associatedSentMessage))
+        {
+            Console.WriteLine($"Received unexpected client response: {incomingMessage.ToString()}");
+            return;
+        }
+        
         Action<Message>? onClientResponseReceived = _sentMessagesExpectingAResponseWithSubscriber[associatedSentMessage];
         onClientResponseReceived?.Invoke(incomingMessage);
+        
         _sentMessagesExpectingAResponseWithSubscriber.Remove(associatedSentMessage);
     }
 }

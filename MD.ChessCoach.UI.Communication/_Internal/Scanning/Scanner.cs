@@ -63,8 +63,6 @@ internal class Scanner : IScanner
     
     private void ProcessMessage(string message)
     {
-        // Console.WriteLine($"Received message: {message}");
-        
         Message processedMessage = Message.FromJson(message);
         _messageProcessor.ProcessIncomingMessage(processedMessage);
     }

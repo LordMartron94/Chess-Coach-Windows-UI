@@ -18,6 +18,8 @@ internal class APIContext
     private readonly RegistrationHandler _registrationHandler;
 
     public Logger Logger { get; }
+    public ChessEndpoint ChessEndpoint { get; }
+    
 
     public APIContext()
     {
@@ -32,7 +34,9 @@ internal class APIContext
         messageProcessor.Initialize(messageHandler);
             
         _registrationHandler = new RegistrationHandler(_connector, _socket);
+        
         Logger = new Logger(messageHandler);
+        ChessEndpoint = new ChessEndpoint(messageHandler);
             
         _registrationHandler.Register();
     }

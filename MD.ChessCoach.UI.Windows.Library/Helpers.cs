@@ -80,6 +80,14 @@ public static class Helpers
         return (x, y);
     }
 
+    public static (int, int) GetFileAndRankFromPosition(double x, double y, double width = 81.25, double height = 81.25)
+    {
+        int file = (int)(x / width);
+        double rank = 7 - (y / height);
+        
+        return (file, (int)rank);
+    }
+
     /// <summary>
     /// Mirrors the Y position vertically.
     /// </summary>
@@ -90,5 +98,20 @@ public static class Helpers
     {
         // ReSharper disable once ArrangeRedundantParentheses
         return (height * 7) - y;
+    }
+
+    public static string GetAlgebraicNotationForSquare(int rank, int file)
+    {
+        string fileRepresentation = FileNotations[file];
+        string rankRepresentation = (rank + 1).ToString();
+        
+        return $"{fileRepresentation}{rankRepresentation}";
+    }
+
+    public static string GetSquareNotationForPosition(double sourceXPosition, double sourceYPosition)
+    {
+        (int file, int rank) = GetFileAndRankFromPosition(sourceXPosition, sourceYPosition);
+
+        return GetAlgebraicNotationForSquare(rank, file);
     }
 }

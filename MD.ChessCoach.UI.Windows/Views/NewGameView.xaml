@@ -7,6 +7,9 @@
              xmlns:windows="clr-namespace:MD.ChessCoach.UI.Windows"
              mc:Ignorable="d"
              d:DesignHeight="1060" d:DesignWidth="1920">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid Background="#222">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -32,12 +35,36 @@
             </TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Grid>
-                    <Image Source="pack://application:,,,/Assets/Chess Board.png" Width="650"/>
+                    <Image Source="pack://application:,,,/Assets/Chess Board.png" Width="650" IsHitTestVisible="False"/>
                     <Canvas>
                         <ItemsControl ItemsSource="{Binding BoardPieces}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <Canvas Width="650"/>
+                                    <Canvas Width="650" ZIndex="1"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="81.25" Height="81.25"
+                                        Background="Transparent"
+                                        cm:Message.Attach="[Event Click] = [Action SelectPiece($dataContext)]">
+                                        <Image  
+                                            Source="{Binding ImagePath}" 
+                                            Width="81.25" 
+                                            Height="81.25">
+                                        </Image>
+                                        <Button.Margin>
+                                            <Binding Path="Margin"/>
+                                        </Button.Margin>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding MoveOptions}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="650" ZIndex="2"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
@@ -45,7 +72,32 @@
                                     <Image  
                                         Source="{Binding ImagePath}" 
                                         Width="81.25" 
-                                        Height="81.25">
+                                        Height="81.25"
+                                        IsHitTestVisible="False"
+                                        Opacity="0.5"
+                                        Visibility="{Binding Active, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Image.Margin>
+                                            <Binding Path="Margin"/>
+                                        </Image.Margin>
+                                    </Image>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding CaptureOptions}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="650" ZIndex="2"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Image  
+                                        Source="{Binding ImagePath}" 
+                                        Width="81.25" 
+                                        Height="81.25"
+                                        IsHitTestVisible="False"
+                                        Opacity="0.5"
+                                        Visibility="{Binding Active, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Image.Margin>
                                             <Binding Path="Margin"/>
                                         </Image.Margin>
@@ -83,8 +135,6 @@
                 </TextBlock.Effect>
             </TextBlock>
         </StackPanel>
-        
-
         
         <Button Grid.Column="0" Grid.Row="1" Content="Home Screen" cm:Message.Attach="[Event Click] = [Action Back()]"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Width="120" Height="40"

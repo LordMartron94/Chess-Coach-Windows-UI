@@ -47,11 +47,14 @@
       <Resource Include="Assets\Chess Set 1\White_Queen.png" />
       <None Remove="Assets\Chess Set 1\White_Rook.png" />
       <Resource Include="Assets\Chess Set 1\White_Rook.png" />
+      <None Remove="Assets\Move Option.png" />
+      <Resource Include="Assets\Move Option.png" />
+      <None Remove="Assets\Move Option Capture.png" />
+      <Resource Include="Assets\Move Option Capture.png" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Assets\Chess Board.png" />
       <Resource Include="Assets\Chess Board.png" />
     </ItemGroup>
-
 </Project>
