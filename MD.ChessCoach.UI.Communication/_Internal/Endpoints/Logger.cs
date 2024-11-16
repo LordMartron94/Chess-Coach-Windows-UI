@@ -1,4 +1,6 @@
-﻿namespace MD.ChessCoach.UI.Communication._Internal.Endpoints;
+﻿using MD.ChessCoach.UI.Communication.Model;
+
+namespace MD.ChessCoach.UI.Communication._Internal.Endpoints;
 
 /// <summary>
 /// Logging endpoint for logging messages.
@@ -33,6 +35,7 @@ internal class Logger : AbEndpoint
                 ("bool", forceShow.ToString()),
                 ("string", ""),
                 ("string", moduleSeparator)
-            ]);
+            ],
+            onResponseReceived: null);
     }
 }

@@ -1,7 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 using MD.ChessCoach.UI.Communication._Internal.Connectivity;
 using MD.ChessCoach.UI.Communication._Internal.Endpoints;
+using MD.ChessCoach.UI.Communication._Internal.Processing;
 using MD.ChessCoach.UI.Communication.Model;
 
 namespace MD.ChessCoach.UI.Communication._Internal;
@@ -11,26 +12,27 @@ namespace MD.ChessCoach.UI.Communication._Internal;
 /// </summary>
 internal class APIContext
 {
-    private Connector _connector;
-    private Socket? _socket;
+    private readonly Connector _connector;
+    private readonly Socket? _socket;
 
-    private RegistrationHandler _registrationHandler;
-    private Logger _logHandler;
-    
-    public Logger Logger => _logHandler;
-    
+    private readonly RegistrationHandler _registrationHandler;
+
+    public Logger Logger { get; }
+
     public APIContext()
     {
-        _connector = new Connector(ProcessReceivedMessage);
+        MessageProcessorSelector messageProcessor = new MessageProcessorSelector();
+        _connector = new Connector(messageProcessor);
         _socket = _connector.ConnectToRemote(Constants.ServerHost, Constants.ServerPort, Constants.ComponentPort);
 
         if (_socket == null)
             throw new Exception("Failed to connect to server");
 
         IMessageHandler messageHandler = new MessageHandler(_connector, _socket);
+        messageProcessor.Initialize(messageHandler);
             
         _registrationHandler = new RegistrationHandler(_connector, _socket);
-        _logHandler = new Logger(messageHandler);
+        Logger = new Logger(messageHandler);
             
         _registrationHandler.Register();
     }
@@ -66,11 +68,5 @@ internal class APIContext
         Message message = new Message(payload);
             
         _connector.SendMessage(_socket, message);
-    }
-
-
-    private void ProcessReceivedMessage(MessagePayload payload)
-    {
-        Console.WriteLine($"Gotten: {payload.action}");
     }
 }

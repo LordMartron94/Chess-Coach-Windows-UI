@@ -99,7 +99,7 @@ public class Connector
         {
             MessagePayload payload = PayloadFactory.BuildPayload(
                 action: "keep_alive",
-                args: new Dictionary<string, string>());
+                args: []);
         
             Message message = new Message(payload);
             SendMessage(s, message);
